@@ -16,7 +16,7 @@ class Cliente():
 
 		while True:
 			msg = input('->')
-			if msg != 'salir':
+			if msg != 'exit':
 				self.send_msg(msg)
 			else:
 				self.sock.close()
