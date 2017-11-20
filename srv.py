@@ -4,9 +4,8 @@ import sys
 import pickle
 
 class Servidor():
-	"""docstring for Servidor"""
 	def __init__(self, host="localhost", port=4000):
-
+""
 		self.clientes = []
 
 		self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
