@@ -4,7 +4,6 @@ import sys
 import pickle
 
 class Servidor():
-	"""docstring for Servidor"""
 	def __init__(self, host="localhost", port=4000):
 
 		self.clientes = []
