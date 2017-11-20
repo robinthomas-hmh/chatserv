@@ -34,5 +34,5 @@ class Cliente():
 	def send_msg(self, msg):
 		self.sock.send(pickle.dumps(msg))
 
-
+#
 c = Cliente()
