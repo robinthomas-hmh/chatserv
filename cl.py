@@ -34,5 +34,5 @@ class Cliente():
 	def send_msg(self, msg):
 		self.sock.send(pickle.dumps(msg))
 
-#call func
+#call funcD:\1 TCD COURSEWORK\Scalable Computing\chat serv
 c = Cliente()
