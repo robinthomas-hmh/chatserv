@@ -1,7 +1,10 @@
 import socket
-import threading
 import sys
-import pickle
+import queue
+import threading
+from threading import Thread
+#from socketserver import ThreadingMixIn
+import re
 
 class Servidor():
 	def __init__(self, host="localhost", port=4000):
