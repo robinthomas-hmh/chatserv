@@ -6,24 +6,17 @@ from threading import Thread
 #from socketserver import ThreadingMixIn
 import re
 
-class Servidor():
-	def __init__(self, host="localhost", port=4000):
-""
-		self.clientes = []
-
-		self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		self.sock.bind((str(host), int(port)))
-		self.sock.listen(10)
-		self.sock.setblocking(False)
-
-		aceptar = threading.Thread(target=self.aceptarCon)
-		procesar = threading.Thread(target=self.procesarCon)
-		
-		aceptar.daemon = True
-		aceptar.start()
-
-		procesar.daemon = True
-		procesar.start()
+class client(Thread):
+    def __init__(self,client_socket,client_ip,client_port):
+        Thread.__init__(self)
+        self.client_socket = client_socket
+        self.client_ip = client_ip
+        self.client_port = client_port
+        self.chatroom = []
+        self.chatroom_id = []
+        self.client_id = 0
+        self.client_name = ""
+        #print("New client thread started")
 
 		while True:
 			msg = input('->')
