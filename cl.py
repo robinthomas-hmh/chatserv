@@ -5,29 +5,21 @@ from threading import Thread
 from socketserver import ThreadingMixIn
 
 class server_thread(Thread):
-    def __init__(self,c_socket,c_client_ip,c_client_port,c_chatroom,c_client_name,hello_msg):
-        Thread.__init__(self)
-        self.c_socket = c_socket
-        self.c_client_ip = c_client_ip
-        self.c_client_port = c_client_port
-        self.c_chatroom = c_chatroom
-        self.c_client_name = c_client_name
-        self.hello_msg = hello_msg
 
     def run(self):
         self.c_socket.send(self.hello_msg.encode())
-        helo_reply_from_server = self.c_socket.recv(2048).decode()
-        print("\n",helo_reply_from_server)
+        srv_helo_rep = self.c_socket.recv(2048).decode()
+        print("\n",srv_helo_rep)
 
         #msg_test = input("Please enter join msg")
-        msg_to_join = "JOIN_CHATROOM: "+self.c_chatroom+"\nCLIENT_IP: "+str(self.c_client_ip)+"\nPORT: "+str(self.c_client_port)+"\nCLIENT_NAME: "+self.c_client_name+"\n"
-        self.c_socket.send(msg_to_join.encode())
+        msg_to_join = "JOIN_CHATROOM: "+self.cl_chatroom+"\nCLIENT_IP: "+str(self.cl_client_ip)+"\nPORT: "+str(self.cl_client_port)+"\nCLIENT_NAME: "+self.cl_client_name+"\n"
+        self.cl_socket.send(msg_to_join.encode())
         while True:
-            message_server = self.c_socket.recv(2048).decode()
+            message_server = self.cl_socket.recv(2048).decode()
             if "DISCONNECT" in message_server:
                 print(message_server)
                 flag=1
-                self.c_socket.close()
+                self.cl_socket.close()
                 sys.exit()
             else:
                 if len(message_server)>0:
@@ -36,7 +28,16 @@ class server_thread(Thread):
                 sys.stdout.write("Type a Message: ")
                 sys.stdout.flush()
                 message_client = sys.stdin.readline()
-                self.c_socket.send(message_client.encode())
+                self.cl_socket.send(message_client.encode())
+				
+    def __init__(self,cl_socket,cl_client_ip,cl_client_port,cl_chatroom,cl_client_name,hello_msg):
+        Thread.__init__(self)
+        self.cl_socket = cl_socket
+        self.cl_client_ip = cl_client_ip
+        self.cl_client_port = cl_client_port
+        self.cl_chatroom = cl_chatroom
+        self.cl_client_name = cl_client_name
+        self.hello_msg = hello_msg
 
 class server_reply(Thread):
     def __init__(self,c_socket):
@@ -59,12 +60,12 @@ class server_reply(Thread):
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 if len(sys.argv) != 3:
-    print("Please provide IP address and port number")
+    print("Enter IP address and port number")
     exit()
-chatroom = input("Enter the chatroom name: ")
+chatroom = input("Enter the name of the chatroom: ")
 client_ip = 0
 client_port = 0
-client_name = input("Enter the client name: ")
+client_name = input("Please enter the name of the client : ")
 IP_address = str(sys.argv[1])
 Port = int(sys.argv[2])
 client_socket.connect((IP_address, Port))
@@ -72,7 +73,7 @@ Port2 = 5050
 flag=0
 threads = []
 
-helo_msg = input("Enter helo message:")
+helo_msg = input("Enter helo:")
 
 
 try:
