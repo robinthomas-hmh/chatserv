@@ -1,2 +1,2 @@
 # chatserver
-chat server for server client communication
+chat server for server client comm
